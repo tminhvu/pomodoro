@@ -5,6 +5,7 @@ import { adjustLongBreak, adjustPomodoro, adjustShortBreak } from "../redux/slic
 import { progressColor } from '../colors'
 import { useNavigation } from "@react-navigation/native"
 import { Icon } from "@rneui/base"
+import { setIsLandscape } from "../redux/slices/screenSlice"
 
 export default function Settings() {
     const pomodoroValue = useSelector((state) => state.circularProgress.pomodoro)
@@ -16,7 +17,12 @@ export default function Settings() {
     const navigation = useNavigation()
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}
+            onLayout={(e) => {
+                let isLandscape = e.nativeEvent.layout.width > e.nativeEvent.layout.height
+                dispatch(setIsLandscape(isLandscape))
+            }}
+        >
             <Slider value={pomodoroValue} label={'Pomodoro'} color={progressColor['pomodoro']} adjustValue={adjustPomodoro} dispatch={dispatch} />
             <Slider value={shortBreakValue} label={'Short break'} color={progressColor['shortBreak']} adjustValue={adjustShortBreak} dispatch={dispatch} />
             <Slider value={longBreakValue} label={'Long break'} color={progressColor['longBreak']} adjustValue={adjustLongBreak} dispatch={dispatch} />
