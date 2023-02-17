@@ -1,10 +1,10 @@
 {
-  "expo": {
-    "name": "pomodoro",
-    "slug": "pomodoro",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  }
+    "expo": {
+        "name": "pomodoro",
+        "slug": "pomodoro",
+        "version": "1.0.0",
+        "assetBundlePatterns": [
+            "**/*"
+        ]
+    }
 }
