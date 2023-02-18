@@ -1,15 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import CircularProgress, { CircularProgressBase } from 'react-native-circular-progress-indicator';
 import { useDispatch, useSelector } from 'react-redux';
 import { switchMode } from '../../redux/slices/circularProgressSlice';
 import { formatProgress } from '../../utils';
+import { Audio } from 'expo-av';
+import alarmFile from '../../sounds/alarm.mp3'
 
 export default function CountDown({ innerRef, outerRef, isOn }) {
     const duration = useSelector((state) => state.circularProgress.duration)
     const color = useSelector((state) => state.circularProgress.activeStrokeColor)
     const subtitle = useSelector((state) => state.circularProgress.subtitle)
     const dispatch = useDispatch()
+    const [alarm, setAlarm] = useState()
+
+    const playAlarm = async () => {
+        const { sound } = await Audio.Sound.createAsync(alarmFile)
+        setAlarm(sound)
+        await sound.playAsync()
+    }
+
+    useEffect(() => {
+        return alarm ? () => {
+            alarm.unloadAsync()
+        } : undefined
+
+    }, [alarm])
 
     useEffect(() => {
         if (!isOn) {
@@ -31,6 +47,7 @@ export default function CountDown({ innerRef, outerRef, isOn }) {
             <CircularProgressBase
                 ref={outerRef}
                 onAnimationComplete={() => {
+                    playAlarm()
                     dispatch(switchMode())
                     outerRef.current.reAnimate()
                     innerRef.current.reAnimate()
