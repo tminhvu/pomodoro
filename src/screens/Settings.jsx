@@ -23,9 +23,11 @@ export default function Settings() {
                 dispatch(setIsLandscape(isLandscape))
             }}
         >
-            <Slider value={pomodoroValue} label={'Pomodoro'} color={progressColor['pomodoro']} adjustValue={adjustPomodoro} dispatch={dispatch} />
-            <Slider value={shortBreakValue} label={'Short break'} color={progressColor['shortBreak']} adjustValue={adjustShortBreak} dispatch={dispatch} />
-            <Slider value={longBreakValue} label={'Long break'} color={progressColor['longBreak']} adjustValue={adjustLongBreak} dispatch={dispatch} />
+            <View style={styles.sliderSection}>
+                <Slider value={pomodoroValue} label={'Pomodoro'} color={progressColor['pomodoro']} adjustValue={adjustPomodoro} dispatch={dispatch} />
+                <Slider value={shortBreakValue} label={'Short break'} color={progressColor['shortBreak']} adjustValue={adjustShortBreak} dispatch={dispatch} />
+                <Slider value={longBreakValue} label={'Long break'} color={progressColor['longBreak']} adjustValue={adjustLongBreak} dispatch={dispatch} />
+            </View>
             <TouchableOpacity style={styles.aboutSection}
                 onPress={() => {
                     navigation.navigate('About')
@@ -49,14 +51,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
+    sliderSection: {
+        width: '100%',
+        alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
     },
     aboutSection: {
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        position: 'absolute',
-        bottom: 50
     },
     aboutLabel: {
         color: 'darkgray',
