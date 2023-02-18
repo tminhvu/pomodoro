@@ -12,8 +12,13 @@ export default function Buttons({ innerRef, outerRef, isOn, setIsOn }) {
         <View style={isLandscape ? styles.landscapeButtonSection : styles.buttonsSection}>
             <TouchableOpacity style={styles.button}
                 onPress={() => {
+                    setIsOn(false)
                     innerRef.current.reAnimate()
                     outerRef.current.reAnimate()
+                    setTimeout(() => {
+                        innerRef.current.pause()
+                        outerRef.current.pause()
+                    }, 500)
                 }}
             >
                 <Icon
@@ -25,13 +30,13 @@ export default function Buttons({ innerRef, outerRef, isOn, setIsOn }) {
             <TouchableOpacity style={styles.button}
                 onPress={() => {
                     if (isOn) {
+                        setIsOn(false)
                         innerRef.current.pause()
                         outerRef.current.pause()
-                        setIsOn(false)
                     } else {
+                        setIsOn(true)
                         innerRef.current.play()
                         outerRef.current.play()
-                        setIsOn(true)
                     }
                 }}
             >
@@ -54,9 +59,9 @@ export default function Buttons({ innerRef, outerRef, isOn, setIsOn }) {
             <TouchableOpacity style={styles.button}
                 onPress={() => {
                     if (isOn) {
+                        setIsOn(false)
                         innerRef.current.pause()
                         outerRef.current.pause()
-                        setIsOn(false)
                     }
                     navigation.navigate('Settings')
                 }} >
