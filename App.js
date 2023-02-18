@@ -19,9 +19,9 @@ export default function App() {
             />
             <View style={styles.container} >
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName="ClockScreen">
+                    <Stack.Navigator initialRouteName="Main">
                         <Stack.Screen
-                            name="ClockScreen"
+                            name="Main"
                             component={Main}
                             options={
                                 {
