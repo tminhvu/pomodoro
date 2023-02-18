@@ -7,14 +7,18 @@ import { formatProgress } from '../../utils';
 import { Audio } from 'expo-av';
 import alarmFile from '../../sounds/alarm.mp3'
 
-export default function CountDown({ innerRef, outerRef, isOn }) {
+export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
     const duration = useSelector((state) => state.circularProgress.duration)
     const color = useSelector((state) => state.circularProgress.activeStrokeColor)
     const subtitle = useSelector((state) => state.circularProgress.subtitle)
-    const dispatch = useDispatch()
     const [alarm, setAlarm] = useState()
 
+    const dispatch = useDispatch()
+
     const playAlarm = async () => {
+        if (isMuteRef.current)
+            return
+
         const { sound } = await Audio.Sound.createAsync(alarmFile)
         setAlarm(sound)
         await sound.playAsync()
@@ -29,15 +33,15 @@ export default function CountDown({ innerRef, outerRef, isOn }) {
 
     useEffect(() => {
         if (!isOn) {
-            innerRef.current.reAnimate()
-            outerRef.current.reAnimate()
+            innerRef?.current.reAnimate()
+            outerRef?.current.reAnimate()
 
-            innerRef.current.play()
-            outerRef.current.play()
+            innerRef?.current.play()
+            outerRef?.current.play()
 
             setTimeout(() => {
-                innerRef.current.pause()
-                outerRef.current.pause()
+                innerRef?.current.pause()
+                outerRef?.current.pause()
             }, 500)
         }
     }, [duration])
@@ -49,8 +53,8 @@ export default function CountDown({ innerRef, outerRef, isOn }) {
                 onAnimationComplete={() => {
                     playAlarm()
                     dispatch(switchMode())
-                    outerRef.current.reAnimate()
-                    innerRef.current.reAnimate()
+                    outerRef?.current.reAnimate()
+                    innerRef?.current.reAnimate()
                 }}
                 duration={duration * 1000}
                 activeStrokeColor={color}
