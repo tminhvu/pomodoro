@@ -26,11 +26,12 @@ export default function Main() {
         >
             <TouchableOpacity style={styles.volumeToggle}
                 onPress={() => {
-                setIsMute(prev => !prev)
-            }}>
+                    setIsMute(prev => !prev)
+                }}
+            >
                 {isMute
-                    ? <Icon name='volume-variant-off' type='material-community' color='darkgray'/>
-                    : <Icon name='volume-source' type='material-community' color='darkgray'/>
+                    ? <Icon name='volume-variant-off' type='material-community' color='darkgray' />
+                    : <Icon name='volume-source' type='material-community' color='darkgray' />
                 }
             </TouchableOpacity>
 
