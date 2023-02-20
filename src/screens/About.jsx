@@ -1,23 +1,12 @@
 import { Icon } from '@rneui/base';
 import React from 'react';
 import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { setIsLandscape } from '../redux/slices/screenSlice';
-
-const portfolio = 'https://tminhvu.vercel.app/'
-const github = 'https://github.com/tminhvu'
-const repository = 'https://github.com/tminhvu'
+import { github, repository, portfolio } from '../links';
 
 export default function About() {
-    const dispatch = useDispatch()
 
     return (
-        <View style={styles.container}
-            onLayout={(e) => {
-                let isLandscape = e.nativeEvent.layout.width > e.nativeEvent.layout.height
-                dispatch(setIsLandscape(isLandscape))
-            }}
-        >
+        <View style={styles.container}>
             <View style={styles.aboutMe}>
                 <Text style={styles.aboutMeText}>
                     * Made with React Native, Redux, Expo.
