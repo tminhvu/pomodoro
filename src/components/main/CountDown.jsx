@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, useWindowDimensions, View } from 'react-native';
 import CircularProgress, { CircularProgressBase } from 'react-native-circular-progress-indicator';
 import { useDispatch, useSelector } from 'react-redux';
 import { switchMode } from '../../redux/slices/circularProgressSlice';
@@ -14,6 +14,9 @@ export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
     const [alarm, setAlarm] = useState()
 
     const dispatch = useDispatch()
+
+    const [styles, setStyles] = useState(stylesDefault)
+    const { height, width } = useWindowDimensions()
 
     const playAlarm = async () => {
         if (isMuteRef.current)
@@ -47,7 +50,15 @@ export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
     }, [duration])
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}
+            onLayout={() => {
+                let isLandscape = width > height
+                if (isLandscape)
+                    setStyles(stylesLandscape)
+                else
+                    setStyles(stylesDefault)
+            }}
+        >
             <CircularProgressBase
                 ref={outerRef}
                 onAnimationComplete={() => {
@@ -86,8 +97,14 @@ export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
     );
 }
 
-const styles = StyleSheet.create({
+const stylesDefault = StyleSheet.create({
     container: {
-        marginBottom: Dimensions.get('window').height / 4
+        marginBottom: Dimensions.get('screen').height / 4,
     }
 });
+
+const stylesLandscape = StyleSheet.create({
+    container: {
+        marginLeft: Dimensions.get('screen').width / 4 - 4,
+    }
+})

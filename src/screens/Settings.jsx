@@ -1,11 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, ScrollView, useWindowDimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import Slider from "../components/settings/Slider"
 import { adjustLongBreak, adjustPomodoro, adjustShortBreak } from "../redux/slices/circularProgressSlice"
 import { progressColor } from '../colors'
 import { useNavigation } from "@react-navigation/native"
 import { Icon } from "@rneui/base"
-import { setIsLandscape } from "../redux/slices/screenSlice"
 
 export default function Settings() {
     const pomodoroValue = useSelector((state) => state.circularProgress.pomodoro)
@@ -15,14 +14,10 @@ export default function Settings() {
     const dispatch = useDispatch()
 
     const navigation = useNavigation()
+    const { height, width } = useWindowDimensions()
 
     return (
-        <View style={styles.container}
-            onLayout={(e) => {
-                let isLandscape = e.nativeEvent.layout.width > e.nativeEvent.layout.height
-                dispatch(setIsLandscape(isLandscape))
-            }}
-        >
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container(width, height)} fadingEdgeLength={200}>
             <View style={styles.sliderSection}>
                 <Slider value={pomodoroValue} label={'Pomodoro'} color={progressColor['pomodoro']} adjustValue={adjustPomodoro} dispatch={dispatch} />
                 <Slider value={shortBreakValue} label={'Short break'} color={progressColor['shortBreak']} adjustValue={adjustShortBreak} dispatch={dispatch} />
@@ -42,16 +37,21 @@ export default function Settings() {
                     About
                 </Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    scrollView: {
         backgroundColor: 'black',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
+        height: Dimensions.get('screen').height,
+    },
+    container: (width, height) => {
+        return {
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            marginTop: height > width ? 100 : 0
+        }
     },
     sliderSection: {
         width: '100%',

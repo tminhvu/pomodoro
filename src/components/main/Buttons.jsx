@@ -1,15 +1,23 @@
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from '@rneui/base';
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 export default function Buttons({ innerRef, outerRef, isOn, setIsOn }) {
-    const isLandscape = useSelector((state) => state.screen.isLandscape)
     const navigation = useNavigation()
+    const [styles, setStyles] = useState(stylesDefault)
+    const { height, width} = useWindowDimensions()
 
     return (
-        <View style={isLandscape ? styles.landscapeButtonSection : styles.buttonsSection}>
+        <View style={styles.buttonsSection}
+            onLayout={()=>{
+                let isLandscape = width > height
+                if (isLandscape)
+                    setStyles(stylesLandscape)
+                else
+                    setStyles(stylesDefault)
+            }}
+        >
             <TouchableOpacity style={styles.button}
                 onPress={() => {
                     setIsOn(false)
@@ -75,7 +83,7 @@ export default function Buttons({ innerRef, outerRef, isOn, setIsOn }) {
     );
 }
 
-const styles = StyleSheet.create({
+const stylesDefault = StyleSheet.create({
     buttonsSection: {
         position: 'absolute',
         bottom: 100,
@@ -83,7 +91,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     },
-    landscapeButtonSection: {
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+});
+
+const stylesLandscape = StyleSheet.create({
+    buttonsSection: {
         position: 'absolute',
         right: 100,
         height: '100%',
@@ -94,4 +109,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-});
+
+})

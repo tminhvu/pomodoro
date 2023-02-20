@@ -1,27 +1,30 @@
 import { Icon } from '@rneui/base';
 import React, { useState } from 'react';
 import { useRef } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import Buttons from '../components/main/Buttons';
 import CountDown from '../components/main/CountDown';
-import { setIsLandscape } from '../redux/slices/screenSlice';
 
 export default function Main() {
     const innerRef = useRef()
     const outerRef = useRef()
     const [isOn, setIsOn] = useState(false)
-    const dispatch = useDispatch()
 
     const isMuteRef = useRef()
     const [isMute, setIsMute] = useState(false)
     isMuteRef.current = isMute
 
+    const [styles, setStyles] = useState(stylesDefault)
+    const { height, width} = useWindowDimensions()
+
     return (
         <View style={styles.container}
-            onLayout={(e) => {
-                let isLandscape = e.nativeEvent.layout.width > e.nativeEvent.layout.height
-                dispatch(setIsLandscape(isLandscape))
+            onLayout={() => {
+                let isLandscape = width > height
+                if (isLandscape)
+                    setStyles(stylesLandscape)
+                else
+                    setStyles(stylesDefault)
             }}
         >
             <TouchableOpacity style={styles.volumeToggle}
@@ -41,13 +44,13 @@ export default function Main() {
     );
 }
 
-const styles = StyleSheet.create({
+const stylesDefault = StyleSheet.create({
     container: {
         backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        position: 'relative'
+        position: 'relative',
     },
     volumeToggle: {
         position: 'absolute',
@@ -55,3 +58,18 @@ const styles = StyleSheet.create({
         right: 20
     }
 });
+
+const stylesLandscape = StyleSheet.create({
+    container: {
+        backgroundColor: 'black',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        position: 'relative'
+    },
+    volumeToggle: {
+        position: 'absolute',
+        top: 20,
+        left: 10
+    }
+})
