@@ -1,4 +1,4 @@
-package com.pomodoro.newarchitecture;
+package com.tminhvu.pomodoro.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.pomodoro.BuildConfig;
-import com.pomodoro.newarchitecture.components.MainComponentsRegistry;
-import com.pomodoro.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.tminhvu.pomodoro.BuildConfig;
+import com.tminhvu.pomodoro.newarchitecture.components.MainComponentsRegistry;
+import com.tminhvu.pomodoro.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

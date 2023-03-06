@@ -1,4 +1,4 @@
-package com.pomodoro.newarchitecture.modules;
+package com.tminhvu.pomodoro.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
