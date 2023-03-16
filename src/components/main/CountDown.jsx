@@ -70,10 +70,10 @@ export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
                 duration={duration * 1000}
                 activeStrokeColor={color}
                 value={0}
-                radius={120}
+                radius={Math.max(width, height) / 5}
                 delay={500}
-                activeStrokeWidth={15}
-                inActiveStrokeWidth={15}
+                activeStrokeWidth={10}
+                inActiveStrokeWidth={10}
                 startInPausedState={false}
                 maxValue={100}
                 initialValue={100}
@@ -83,13 +83,14 @@ export default function CountDown({ innerRef, outerRef, isOn, isMuteRef }) {
                     duration={duration * 1000}
                     activeStrokeColor={color}
                     value={0}
-                    radius={120}
+                    radius={Math.max(width, height) / 5}
                     delay={500}
                     activeStrokeWidth={0}
                     inActiveStrokeWidth={0}
                     startInPausedState={false}
                     initialValue={duration}
                     progressFormatter={formatProgress}
+                    progressValueStyle={{fontWeight: 'normal'}}
                     subtitle={subtitle}
                 />
             </CircularProgressBase>
@@ -105,6 +106,6 @@ const stylesDefault = StyleSheet.create({
 
 const stylesLandscape = StyleSheet.create({
     container: {
-        marginLeft: Dimensions.get('screen').width / 4 - 4,
+        marginLeft: Dimensions.get('screen').width / 4,
     }
 })
