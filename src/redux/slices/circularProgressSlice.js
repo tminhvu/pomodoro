@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { progressColor } from '../../colors'
+import { loadSettings, storeSettings } from "../../utils";
 
 const description = {
     'pomodoro': 'Pomodoro',
@@ -24,6 +25,14 @@ export const circularProgressSlice = createSlice({
     name: 'circularProgress',
     initialState,
     reducers: {
+        setTimers: (state, action) => {
+            if (action.payload != null) {
+                state.pomodoro = action.payload.pomodoro
+                state.shortBreak = action.payload.shortBreak
+                state.longBreak = action.payload.longBreak
+                state.duration = state[state.mode]
+            }
+        },
         switchMode: (state) => {
             const currentMode = state.mode
 
@@ -51,6 +60,7 @@ export const circularProgressSlice = createSlice({
             if (newValue >= 0 && newValue <= 3600) {
                 state.pomodoro = newValue
                 state.duration = state[state.mode]
+                storeSettings({ pomodoro: newValue, shortBreak: state.shortBreak, longBreak: state.longBreak })
             }
 
         },
@@ -60,6 +70,7 @@ export const circularProgressSlice = createSlice({
             if (newValue >= 0 && newValue <= 3600) {
                 state.shortBreak = newValue
                 state.duration = state[state.mode]
+                storeSettings({ pomodoro: state.pomodoro, shortBreak: newValue, longBreak: state.longBreak })
             }
         },
         adjustLongBreak: (state, action) => {
@@ -68,10 +79,11 @@ export const circularProgressSlice = createSlice({
             if (newValue >= 0 && newValue <= 3600) {
                 state.longBreak = newValue
                 state.duration = state[state.mode]
+                storeSettings({ pomodoro: state.pomodoro, shortBreak: state.shortBreak, longBreak: newValue })
             }
         }
     }
 })
 
-export const { switchMode, adjustPomodoro, adjustShortBreak, adjustLongBreak } = circularProgressSlice.actions
+export const { setTimers, switchMode, adjustPomodoro, adjustShortBreak, adjustLongBreak } = circularProgressSlice.actions
 export default circularProgressSlice.reducer
