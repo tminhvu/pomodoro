@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
 export const formatProgress = (value) => {
     'worklet'
 
@@ -18,4 +20,27 @@ export const formatProgress = (value) => {
     }
 
     return minuteStr + ':' + remainingSecondsStr
+}
+
+const storeKey = '@com.tminhvu.pomodoro'
+export const storeSettings = async (settings) => {
+    try {
+        await AsyncStorage.setItem(storeKey, JSON.stringify(settings))
+        console.log('store success', settings)
+    } catch (error) {
+        console.log('store fail')
+    }
+}
+
+export const loadSettings = async () => {
+    try {
+        const settings = await AsyncStorage.getItem(storeKey)
+
+        if (settings != null) {
+            console.log('load success', settings)
+            return JSON.parse(settings)
+        }
+    } catch (error) {
+        console.log('load fail')
+    }
 }
