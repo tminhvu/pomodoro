@@ -26,9 +26,8 @@ const storeKey = '@com.tminhvu.pomodoro'
 export const storeSettings = async (settings) => {
     try {
         await AsyncStorage.setItem(storeKey, JSON.stringify(settings))
-        console.log('store success', settings)
+        //console.log('store success', settings)
     } catch (error) {
-        console.log('store fail')
     }
 }
 
@@ -37,10 +36,9 @@ export const loadSettings = async () => {
         const settings = await AsyncStorage.getItem(storeKey)
 
         if (settings != null) {
-            console.log('load success', settings)
+            //console.log('load success', settings)
             return JSON.parse(settings)
         }
     } catch (error) {
-        console.log('load fail')
     }
 }
