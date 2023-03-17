@@ -1,9 +1,12 @@
 import { Icon } from '@rneui/base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { StyleSheet, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import Buttons from '../components/main/Buttons';
 import CountDown from '../components/main/CountDown';
+import { setTimers } from '../redux/slices/circularProgressSlice';
+import { loadSettings } from '../utils';
 
 export default function Main() {
     const innerRef = useRef()
@@ -15,7 +18,15 @@ export default function Main() {
     isMuteRef.current = isMute
 
     const [styles, setStyles] = useState(stylesDefault)
-    const { height, width} = useWindowDimensions()
+    const { height, width } = useWindowDimensions()
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        loadSettings().then(res => {
+            dispatch(setTimers(res))
+        }).catch()
+    })
 
     return (
         <View style={styles.container}
