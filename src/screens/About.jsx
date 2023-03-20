@@ -49,7 +49,7 @@ export default function About() {
             </View>
             <View style={styles.license}>
                 <Text style={styles.licenseText}>
-                    Open source and licensed under GNU General Public License
+                    Open-sourced and licensed under GNU General Public License
                 </Text>
                 <View style={styles.repo}>
                     <TouchableOpacity style={styles.link}
